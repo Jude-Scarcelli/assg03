@@ -23,6 +23,14 @@
 #define BR(i) (((i) >> 6) & 0x7)
 #define FL(i) (((i) >> 11) & 1)
 #define TRP(i) ((i) & 0xFF)
+#define OPC(i) ((i) >> 12)
+#define DR(i) (((i) >> 9) & 0x07)
+#define SR1(i) (((i) >> 6) & 0x07)
+#define SR2(i) ((i) & 0x07)
+#define SEXTIMM(i) (sign_extend((i), 5))
+#define OFF6(i) (sign_extend((i), 6))
+#define PCOFF9(i) (sign_extend((i), 9))
+#define PCOFF11(i) (sign_extend((i), 11))
 
 typedef void (*op_ex_f)(uint16_t i);
 typedef void (*trp_ex_f)();
