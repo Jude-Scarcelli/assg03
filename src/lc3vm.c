@@ -162,6 +162,22 @@ void update_flags(uint16_t r)
  *   instruction.
  */
 // put your implememtation of add() here below it documentation
+void add(uint16_t i)
+{
+  uint16_t dr = DR(i);
+  uint16_t s1 = SR1(i);
+
+  if (FIMM(i))
+  {
+    reg[dr] = reg[s1] + SEXTIMM(i);
+  }
+  else
+  {
+    uint16_t s2 = SR2(i);
+    reg[dr] = reg[s1] + reg[s2];
+  }
+  update_flags(dr);
+}
 
 /** @brief logical AND operation
  *
@@ -183,6 +199,22 @@ void update_flags(uint16_t r)
  *   instruction.
  */
 // put your implememtation of andlc() here below it documentation
+void andlc(uint16_t i)
+{
+  uint16_t dr = DR(i);
+  uint16_t s1 = SR1(i);
+
+  if (FIMM(i))
+  {
+    reg[dr] = reg[s1] & SEXTIMM(i);
+  }
+  else
+  {
+    uint16_t s2 = SR2(i);
+    reg[dr] = reg[s1] & reg[s2];
+  }
+  update_flags(dr);
+}
 
 /** @brief logical NOT operation
  *
@@ -197,6 +229,15 @@ void update_flags(uint16_t r)
  *   instruction.
  */
 // put your implememtation of notlc() here below it documentation
+void notlc(uint16_t i)
+{
+  uint16_t dr = DR(i);
+  uint16_t s1 = SR1(i);
+
+  reg[dr] = ~reg[s1];
+
+  update_flags(dr);
+}
 
 /** @brief load RPC + offset
  *
