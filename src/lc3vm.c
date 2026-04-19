@@ -45,7 +45,6 @@ uint16_t PC_START = 0x3000;
  *   later as something other than an unsigned integer, but this function
  *   simply reads and returns the 16 bits stored at the indicated address.
  */
-// put your implememtation of mem_read() here below it documentation
 uint16_t mem_read(uint16_t address)
 { return mem[address]; }
 
@@ -64,7 +63,6 @@ uint16_t mem_read(uint16_t address)
  *   stored where requested, it could actually be a signed number, or an ascii
  *   character, or some other type of data.
  */
-// put your implememtation of mem_write() here below it documentationuint16_t mem_read(uint16_t address)
 void mem_write(uint16_t address, uint16_t value)
 { mem[address] = value; }
 
@@ -91,7 +89,6 @@ void mem_write(uint16_t address, uint16_t value)
  *    bit positions, thus converting this to a full 16-bit twos-complement sigend
  *    value.
  */
-// put your implememtation of sign_extend() here below it documentation
 uint16_t sign_extend(uint16_t bits, int size)
 {
   if ((bits >> (size - 1)) & 1)
@@ -119,7 +116,6 @@ uint16_t sign_extend(uint16_t bits, int size)
  *   was just modified by an operation and needs to have the condition code flags
  *   updated as a side effect of the operation just performed.
  */
-// put your implememtation of update_flags() here below it documentation
 void update_flags(uint16_t r)
 {
   if (reg[r] == 0)
@@ -161,7 +157,6 @@ void update_flags(uint16_t r)
  *   second source register or the immediate value encoded in the
  *   instruction.
  */
-// put your implememtation of add() here below it documentation
 void add(uint16_t i)
 {
   uint16_t dr = DR(i);
@@ -198,7 +193,6 @@ void add(uint16_t i)
  *   second source register or the immediate value encoded in the
  *   instruction.
  */
-// put your implememtation of andlc() here below it documentation
 void andlc(uint16_t i)
 {
   uint16_t dr = DR(i);
@@ -228,7 +222,6 @@ void andlc(uint16_t i)
  *   second source register or the immediate value encoded in the
  *   instruction.
  */
-// put your implememtation of notlc() here below it documentation
 void notlc(uint16_t i)
 {
   uint16_t dr = DR(i);
@@ -255,7 +248,14 @@ void notlc(uint16_t i)
  *   destination and source register operands, and to extract the
  *   second source register or the immediate value encoded in the
  */
-// put your implememtation of ld() here below it documentation
+void ld(uint16_t i)
+{
+  uint16_t dr = DR(i);
+  uint16_t address = reg[RPC] + PCOFF9(i);
+
+  reg[dr] = mem_read(address);
+  update_flags(dr);
+}
 
 /** @brief load indirect
  *
@@ -272,7 +272,16 @@ void notlc(uint16_t i)
  *   destination and source register operands, and to extract the
  *   second source register or the immediate value encoded in the
  */
-// put your implememtation of ldi() here below it documentation
+void ldi(uint16_t i)
+{
+  uint16_t dr = DR(i);
+  uint16_t address_of_address = reg[RPC] + PCOFF9(i);
+
+  uint16_t final_address = mem_read(address_of_address);
+  reg[dr] = mem_read(final_address);
+
+  update_flags(dr);
+}
 
 /** @brief load base + relative offset
  * 
@@ -288,7 +297,15 @@ void notlc(uint16_t i)
  *   destination and source register operands, and to extract the
  *   second source register or the immediate value encoded in the
  */
-// put your implememtation of ldr() here below it documentation
+void ldr(uint16_t i)
+{
+  uint16_t dr = DR(i);
+  uint16_t base_reg = SR1(i);
+  uint16_t address = reg[base_reg] + OFF6(i);
+
+  reg[dr] = mem_read(address);
+  update_flags(dr);
+}
 
 /** @brief load effective address
  *
@@ -305,7 +322,11 @@ void notlc(uint16_t i)
  *   destination and source register operands, and to extract the
  *   second source register or the immediate value encoded in the
  */
-// put your implememtation of lea() here below it documentation
+void lea(uint16_t i)
+{
+  uint16_t dr = DR(i);
+  reg[dr] = reg[RPC] + PCOFF9(i);
+}
 
 /** @brief store to PC + offset
  *
