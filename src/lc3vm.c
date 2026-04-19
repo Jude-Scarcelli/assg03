@@ -406,7 +406,11 @@ void str(uint16_t i)
  *   destination and source register operands, and to extract the
  *   second source register or the immediate value encoded in the
  */
-// put your implememtation of jmp() here below its documentation
+void jmp(uint16_t i)
+{
+  uint16_t base_reg = SR1(i);
+  reg[RPC] = reg[base_reg];
+}
 
 /** @brief conditional branch
  *
@@ -424,7 +428,15 @@ void str(uint16_t i)
  *   destination and source register operands, and to extract the
  *   second source register or the immediate value encoded in the
  */
-// put your implememtation of br() here below its documentation
+void br(uint16_t i)
+{
+  uint16_t cond_flags_in_instruction = DR(i);
+
+  if (cond_flags_in_instruction & reg[RCND])
+  {
+    reg[RPC] += PCOFF9(i);
+  }
+}
 
 /** @brief jump to/from subtroutine
  *
@@ -437,7 +449,19 @@ void str(uint16_t i)
  *   destination and source register operands, and to extract the
  *   second source register or the immediate value encoded in the
  */
-// put your implememtation of jsr() here below its documentation
+void jsr(uint16_t i)
+{
+  reg[R7] = reg[RPC];
+
+  if (FL(i) == 0)
+  {
+    reg[RPC] = reg[SR1(i)];
+  }
+  else
+  {
+    reg[RPC] += PCOFF11(i);
+  }
+}
 
 /** @brief return from interrupt
  *
