@@ -1,9 +1,9 @@
 /** @file assg03-tests.cpp
  * @brief Unit tests for LC-3 microarchitecture/VM simulator.
  *
- * @author Student Name
- * @note   cwid: 123456
- * @date   Spring 2024
+ * @author Jude Scarcelli
+ * @note   cwid: 50306028
+ * @date   Spring 2026
  * @note   ide:  VS Code Editor / IDE ; g++ 8.2.0 / GNU Make 4.2.1
  *
  * Unit tests for assignment 03, implementaiton of LC-3
@@ -23,8 +23,8 @@
 #define task6
 #define task7
 #define task8
-#undef task9
-#undef task10
+#define task9
+#define task10
 
 /**
  * @brief Task 1: Test memory access functions to read and write into

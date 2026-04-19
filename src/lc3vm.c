@@ -1,9 +1,9 @@
 /** @file lc3vm.c
  * @brief LC-3 VM Implementation
  *
- * @author Student Name
- * @note   cwid: 123456
- * @date   Spring 2024
+ * @author Jude Scarcelli
+ * @note   cwid: 50306028
+ * @date   Spring 2026
  * @note   ide:  g++ 8.2.0 / GNU Make 4.2.1
  *
  * Implementation of LC-3 VM/Microarchitecture simulator.  Functions
@@ -625,9 +625,24 @@ void trap(uint16_t i)
  * looking up and invoking the (microcode) instruction function from this
  * lookup table.
  */
-// you need to declare the operator execution lookup table here.  This will be an
-// array of function pointers to your opcode microcode execution functions.
-
+op_ex_f op_ex[NUMOPS] = {
+  br,
+  add,
+  ld,
+  st,
+  jsr,
+  andlc,
+  ldr,
+  str,
+  rti,
+  notlc,
+  ldi, 
+  sti,
+  jmp,
+  res,
+  lea,
+  trap
+};
 
 /** @brief start/run LC-3 simulator
  *
@@ -644,7 +659,21 @@ void trap(uint16_t i)
  *   a 16-bit (signed) offset from this location and start there instead
  *   in this routine.
  */
-// put your implememtation of start() here below its documentation
+void start(uint16_t offset)
+{
+  reg[RPC] = PC_START + offset;
+
+  while (running)
+  {
+    uint16_t instruction = mem_read(reg[RPC]);
+
+    reg[RPC]++;
+
+    uint16_t opcode = OPC(instruction);
+
+    op_ex[opcode](instruction);
+  }
+}
 
 /** @brief load an LC-3 machine instruction image
  *

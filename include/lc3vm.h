@@ -1,9 +1,9 @@
 /** @file lc3vm.h
  * @brief LC-3 VM API
  *
- * @author Student Name
- * @note   cwid: 123456
- * @date   Spring 2024
+ * @author Jude Scarcelli
+ * @note   cwid: 50306028
+ * @date   Spring 2026
  * @note   ide:  g++ 8.2.0 / GNU Make 4.2.1
  *
  * Header include file for LC-3 simulator API/functions.
@@ -91,6 +91,9 @@ void str(uint16_t i);
 void jmp(uint16_t i);
 void br(uint16_t i);
 void jsr(uint16_t i);
+void rti(uint16_t i); // (added rti and res just incase)
+void res(uint16_t i);
+void start(uint16_t offset);
 
 void rti(uint16_t i);
 void res(uint16_t i);
